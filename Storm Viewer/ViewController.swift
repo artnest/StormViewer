@@ -20,7 +20,7 @@ class ViewController: UITableViewController {
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
         
-        let items = try! fm.contentsOfDirectory(atPath: path)
+        let items = try! fm.contentsOfDirectory(atPath: path).sorted()
         
         for item in items {
             if item.hasPrefix("nssl") {
@@ -43,7 +43,10 @@ class ViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
-            vc.selectedImage = pictures[indexPath.row]
+            let index = indexPath.row
+            vc.selectedImage = pictures[index]
+            vc.selectedPictureNumber = index + 1
+            vc.totalPictures = pictures.count
             navigationController?.pushViewController(vc, animated: true)
         }
     }
